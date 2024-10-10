@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<style>
+    .alert-info {
+        color: #2f5162;
+        background-color: #caf1c9;
+        border-color: #70eb66;
+    }
+</style>
+
+<body style="background-color: #c7eaf04d;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <h1 class="title"><strong>Busio -</strong></h1>
+        <h3 class="titleTwo">Seat Reservation Application</h3>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You have successfully registered!</div>
+            </div>
+
+            <div th:if="${error}">
+                <div class="alert alert-danger" th:text="${error}"></div>
+            </div>
+
+            <h1><strong>Registration</strong></h1>
+
+            <form th:action="@{/registration}" method="post" th:object="${user}"
+                  onsubmit="return validateRegistrationForm()">
+
+                <div class="form-group">
+                    <label class="control-label" for="name"> Name </label>
+                    <input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="email"> Email </label>
+                    <input id="email" class="form-control" th:field="*{email}" required autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password"> Password </label>
+                    <input id="password" class="form-control" type="password" th:field="*{password}" required
+                           autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> Register</button>
+                    <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" style="margin-top:65px;margin-right: 5px">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4><strong>About Us</strong></h4>
+                <p>Your traveling buddy, always here to help you make your next trip easier.</p>
+            </div>
+            <div class="col-md-4">
+                <h4 style="padding-left: 15px"><strong>Contact</strong></h4>
+                <ul>
+                    <li><a href="login.html">Email Us</a></li>
+                    <li><a href="login.html">Call Us</a></li>
+                    <li><a href="login.html">Location</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 style="padding-left: 15px"><strong>Follow Us</strong></h4>
+                <ul>
+                    <li><a href="login.html">Facebook</a></li>
+                    <li><a href="login.html">Twitter</a></li>
+                    <li><a href="login.html">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function validateRegistrationForm() {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        // Email pattern (simple version)
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // Alphanumeric pattern for password
+        var passwordPattern = /^[a-zA-Z0-9]+$/;
+        // Name pattern to allow only letters and spaces
+        var namePattern = /^[a-zA-Z\s]+$/;
+
+        if (!name.match(namePattern)) {
+            alert("Name can only contain letters and spaces.");
+            return false;
+        }
+        if (name.length < 3 || name.length > 30) {
+            alert("Name must be between 3 and 30 characters long.");
+            return false;
+        }
+
+        if (!email.match(emailPattern)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+        if (email.length > 50) {
+            alert("Email must be up to 50 characters long.");
+            return false;
+        }
+
+        if (!password.match(passwordPattern)) {
+            alert("Password must be alphanumeric.");
+            return false;
+        }
+        if (password.length > 30) {
+            alert("Password must be up to 30 characters long.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+
+</html>

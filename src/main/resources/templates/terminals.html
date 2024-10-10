@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+
+    .terminal-box {
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 150px;
+        overflow: hidden;
+        transition: border 0.3s ease, padding 0.3s ease;
+    }
+
+    .terminal-box h2 {
+        margin-top: 0;
+    }
+
+    .terminal-box p {
+        color: #6c757d;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .terminal-info {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        margin-top: 20px;
+        border-top: 1px solid #dee2e6;
+        padding-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        text-align: center;
+    }
+
+</style>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Terminals of
+                Tirana</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text="*{userDetails}"></span>!</h4></div>
+                    <div class="col-md-3">
+                        <a th:href="@{/dashboard}" class="btn anchor" style="margin-left:600px"> <i
+                                class="fa fa-arrow-circle-o-left"></i>Dashboard</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/logout}" class="btn anchor" style="margin-left:500px; margin-bottom: 12px;"> <i
+                                class="fa fa-arrow-circle-o-left"></i>&nbsp;Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 70px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="terminal1" class="terminal-box">
+                <h2>Terminali i Autobusave te Jugut dhe Veriut</h2>
+                <p>Timetable</p>
+                <button class="btn btn-primary" onclick="toggleInfo('terminal1-info', 'terminal1')">Show More
+                    Information
+                </button>
+                <div id="terminal1-info" class="terminal-info">
+                    <h3 style="text-align: left; padding-bottom: 10px; padding-left: 5px;"><strong>South, Durres and North.</strong></h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Station No.</th>
+                                <th>Destination</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Kavaja</td>
+                                <td>07:00, 08:30, 10:00, 12:00, 13:30, 14:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Durrës</td>
+                                <td>06:00, 06:30, 07:00, 07:30, 08:00, 08:30, 08:45, 09:00, 09:20, 09:40, 10:10, 10:30,  10:50, 11:10, 11:30, 11:50, 12:10, 12:30, 13:00,
+                                    13:30, 14:00, 14:30, 15:00, 15:15, 15:30, 16:00, 16:20,  16:40, 17:00, 17:20, 17:40 18:00,
+                                    18:30, 19:00, 19:30, 19:45, 20:00, 20:30, 21:00, 21:15</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Rrogozhina</td>
+                                <td>06:30, 07:30, 08:30, 09:30, 10:30,  12:00, 13:00, 14:00, 15:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Manëz</td>
+                                <td>09:00, 11:00, 13:00, 15:00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Himara</td>
+                                <td>05:30, 07:30, 08:30, 12:30, 13:00, 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Shijaku</td>
+                                <td>07:00, 10:00, 11:00, 12:00, 12:45, 13:30, 14:15, 15:00, 15:45, 16:30, 17:15, 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Divjaka</td>
+                                <td>06:00, 07:00, 08:00, 09:00, 10:00, 11:30, 13:10, 14:45</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Sukth</td>
+                                <td>06:20, 07:00, 07:30, 08:00,  08:30, 09:30, 10:30, 11:30, 12:30, 13:00, 14:00, 15:30, 16:30, 18:30, 19:30</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>Fier</td>
+                                <td>05:00, 05:30, 05:55, 06:20, 06:45, 07:10, 07:35, 08:00, 08:25, 08:50, 09:15, 09:40, 10:05, 10:30, 11:00, 11:30,
+                                    12:00, 12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30,  17:00, 17:30, 18:00, 18:30, 19:30</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Berat</td>
+                                <td>05:40, 06:30, 07:15, 07:45, 08:15, 08:50, 09:20, 09:50, 10:20, 11:00 , 11:30, 12:00, 12:30,
+                                    13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>Gjirokastër</td>
+                                <td>05:00, 06:45, 08:00, 09:00, 10:00, 11:00, 12:00, 13:00, 14:30, 15:30, 17:30, 18:30, 19:30</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>Lushnje</td>
+                                <td>05:40, 06:10, 06:40, 07:10, 07:40, 08:10, 08:40, 09:10, 09:40, 10:10, 10:45, 11:30, 12:00,
+                                    12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>Vlora</td>
+                                <td>05:00, 05:30, 05:55, 06:20, 06:45, 07:10, 07:35, 08:00, 08:25, 08:50, 09:15, 09:40, 10:05,
+                                    10:30, 11:00, 11:30, 12:00, 12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>Saranda/bregdet</td>
+                                <td>06:15, 21:00</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>Memaliaj</td>
+                                <td>07:15, 08:15, 14:00, 15:00, 16:45, 17:45</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>Përmet</td>
+                                <td>05:30, 06:30, 07:30, 08:15, 09:00, 11:30, 12:30, 14:00, 15:30, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>Ballsh</td>
+                                <td>06:15, 07:45, 12:00, 13:00, 14:00, 15:00, 16:00</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>Libohova</td>
+                                <td>05:45, 13:00</td>
+                            </tr>
+                            <tr>
+                                <td>19</td>
+                                <td>Këlcyrë</td>
+                                <td>12:00, 15:05</td>
+                            </tr>
+                            <tr>
+                                <td>20</td>
+                                <td>Kuçova</td>
+                                <td>06:45, 09:00, 10:45, 11:45, 12:45, 13:45, 14:30, 15:15, 16:15, 17:15</td>
+                            </tr>
+                            <tr>
+                                <td>21</td>
+                                <td>Saranda</td>
+                                <td>05:30, 07:30, 08:30, 09:45, 12:30, 14:15, 16:00, 22:00</td>
+                            </tr>
+                            <tr>
+                                <td>22</td>
+                                <td>Patos</td>
+                                <td>04:45, 09:00, 10:40, 11:00, 11:40,  12:40, 13:40, 14:00, 14:40, 15:40</td>
+                            </tr>
+                            <tr>
+                                <td>23</td>
+                                <td>Selenicë</td>
+                                <td>12:15, 14:15</td>
+                            </tr>
+                            <tr>
+                                <td>24</td>
+                                <td>Tepelenë</td>
+                                <td>07:00, 11:00, 13:00, 14:00</td>
+                            </tr>
+                            <tr>
+                                <td>25</td>
+                                <td>Delvina</td>
+                                <td>07:30, 10:30, 13:00, 14:50</td>
+                            </tr>
+                            <tr>
+                                <td>26</td>
+                                <td>Dropull</td>
+                                <td>04:30, 07:00,  13:45, 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>27</td>
+                                <td>Fratar</td>
+                                <td>14:30, 16:00</td>
+                            </tr>
+                            <tr>
+                                <td>28</td>
+                                <td>Peqin</td>
+                                <td>06:45, 13:00</td>
+                            </tr>
+                            <tr>
+                                <td>29</td>
+                                <td>Konispol</td>
+                                <td>11:00</td>
+                            </tr>
+                            <tr>
+                                <td>30</td>
+                                <td>Polican</td>
+                                <td>07:05, 10:35, 12:15, 14:00</td>
+                            </tr>
+                            <tr>
+                                <td>31</td>
+                                <td>Orikum</td>
+                                <td>10:00</td>
+                            </tr>
+                            <tr>
+                                <td>32</td>
+                                <td>Roskovec</td>
+                                <td>12:15, 14:15, 15:15</td>
+                            </tr>
+                            <tr>
+                                <td>33</td>
+                                <td>Cërrik</td>
+                                <td>13:50</td>
+                            </tr>
+                            <tr>
+                                <td>34</td>
+                                <td>Skrapar</td>
+                                <td>06:00, 11:10, 13:00, 14:30, 16:10</td>
+                            </tr>
+                            <tr>
+                                <td>35</td>
+                                <td>Laç</td>
+                                <td>05:30, 06:00, 06:30, 07:00, 07:30, 08:00, 08:30, 09:00, 09:30, 10:00, 10:30, 11:00,
+                                    11:30, 12:00, 12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00,
+                                    17:30, 18:00, 18:30, 19:00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>36</td>
+                                <td>Shkodër</td>
+                                <td>05:00, 06:00, 06:30, 07:00, 07:30, 08:00, 08:30, 09:00, 09:30, 10:00, 10:30, 11:00,
+                                    11:30, 12:00, 12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00,
+                                    17:30, 18:00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>37</td>
+                                <td>Peshkopi</td>
+                                <td>05:00, 05:30, 06:00, 06:30, 07:00, 07:30, 08:00, 08:30, 09:00, 10:00, 10:40, 11:20,
+                                    12:30, 12:40, 13:20, 14:00, 14:40, 15:20, 16:00, 16:40
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>38</td>
+                                <td>Fushë Krujë (Kamza)</td>
+                                <td>05:00, 05:30, 06:00, 06:30, 07:00, 07:30, 08:00, 08:30, 09:30, 10:00, 10:30, 11:30,
+                                    12:00, 12:30, 13:30, 14:00, 14:30, 15:30, 16:30
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>39</td>
+                                <td>Burrel</td>
+                                <td>06:00, 07:00, 08:00, 09:00, 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>40</td>
+                                <td>Kukës</td>
+                                <td>06:00, 07:00, 08:00, 09:00, 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00,
+                                    18:00, 19:00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>41</td>
+                                <td>Bajram Curri (qafa e malit)</td>
+                                <td>08:00, 10:00, 10:30, 11:00</td>
+                            </tr>
+                            <tr>
+                                <td>42</td>
+                                <td>Bajram Curri (koman)</td>
+                                <td>05:00, 10:30</td>
+                            </tr>
+                            <tr>
+                                <td>43</td>
+                                <td>Fushë Krujë (Rinas)</td>
+                                <td>07:00, 08:00, 09:00, 10:00, 11:00, 12:00, 13:00, 14:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>44</td>
+                                <td>Lezhë</td>
+                                <td>16:00, 17:00, 18:00, 19:00</td>
+                            </tr>
+                            <tr>
+                                <td>45</td>
+                                <td>Rrëshen</td>
+                                <td>06:00, 07:30, 09:00, 10:30, 11:00, 12:00, 13:30, 14:30, 16:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>46</td>
+                                <td>Bajram Curri (kosova)</td>
+                                <td>05:30, 06:00, 07:00, 08:00, 09:00, 10:00, 11:00, 12:00, 14:00, 14:30, 15:30</td>
+                            </tr>
+                            <tr>
+                                <td>47</td>
+                                <td>Bulqizë</td>
+                                <td>06:00, 07:00, 08:00, 09:00, 10:00, 11:00, 12:30, 13:30, 14:30, 16:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>48</td>
+                                <td>Krujë</td>
+                                <td>07:00, 08:00, 09:00, 10:00, 11:00, 12:00, 13:30, 14:00, 15:00, 16:00, 17:00, 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>49</td>
+                                <td>Pukë</td>
+                                <td>05:00, 06:00, 07:00, 08:00, 09:00, 10:00, 11:00, 11:45, 13:00, 14:00, 16:00</td>
+                            </tr>
+                            <tr>
+                                <td>50</td>
+                                <td>Fushë Arrëz</td>
+                                <td>05:00, 05:30, 06:00, 07:40, 08:10, 12:00, 14:00</td>
+                            </tr>
+                            <tr>
+                                <td>51</td>
+                                <td>Krumë</td>
+                                <td>06:30, 07:30, 08:30, 09:30, 12:30, 14:30, 16:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>52</td>
+                                <td>Vau Dejës</td>
+                                <td>07:00, 10:00, 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>53</td>
+                                <td>Koplik</td>
+                                <td>06:30, 07:15, 12:00, 13:00</td>
+                            </tr>
+                            <tr>
+                                <td>54</td>
+                                <td>Klos</td>
+                                <td>05:30, 08:00, 12:00, 14:00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="terminal2" class="terminal-box">
+                <h2>Terminali i Autobusave Nderkombetar dhe Autobuzave te Juglindjes</h2>
+                <p>Timetable</p>
+                <button class="btn btn-primary" onclick="toggleInfo('terminal2-info', 'terminal2')">Show More
+                    Information
+                </button>
+                <div id="terminal2-info" class="terminal-info">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Station No.</th>
+                                <th>Destination</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Tiranë – Kapshticë – Stamboll</td>
+                                <td>Çdo ditë ora 12:00,  (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Tiranë – Kapshticë – Selanik</td>
+                                <td>Çdo ditë ora 05:00 dhe 08:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Tiranë – Kapshticë – Katerini</td>
+                                <td>Çdo ditë ora 05:30 dhe 08:30</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Tiranë – Kakavijë – Kalamata</td>
+                                <td>Çdo ditë ora 14:00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Tiranë – Romë</td>
+                                <td>Çdo të mërkurë/premte/shtunë ora 16:00</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Tiranë – Kakavijë – Kallamata</td>
+                                <td>Çdo ditë ora 13:30 dhe 14:00</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 17:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 03:30 dhe 15:30, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 05:00,15:00,17:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Tiranë – Kapshticë – Athinë</td>
+                                <td>Çdo të hënë/mërkurë/premte/dielë, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 04:30 dhe 16:30, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 05:00,15:00,17:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 14:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>Tiranë – Prishtinë</td>
+                                <td>Çdo ditë ora 06:00</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>Fier – Varese</td>
+                                <td>Çdo ditë ora 08:00</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>Tiranë – Athinë</td>
+                                <td>Çdo ditë ora 04:00 dhe 16:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>Tiranë – Dortmund</td>
+                                <td>Çdo të hënë/mërkurë/shtunë ora 8:00</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>Tiranë – Viterbo</td>
+                                <td>Çdo të mërkurë/dhe të shtunë ora 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>19</td>
+                                <td>Tiranë – Hamm</td>
+                                <td>Çdo të mërkurë/dhe të shtunë ora 08:00</td>
+                            </tr>
+                            <tr>
+                                <td>20</td>
+                                <td>Tiranë – Kapshticë – Athinë</td>
+                                <td>Çdo ditë ora 05:00 dhe 11:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                            <tr>
+                                <td>21</td>
+                                <td>Tiranë – Kakavijë – Selanik</td>
+                                <td>Çdo ditë ora 03:30</td>
+                            </tr>
+                            <tr>
+                                <td>22</td>
+                                <td>Tiranë – Iraklio</td>
+                                <td>Çdo ditë 04:00</td>
+                            </tr>
+                            <tr>
+                                <td>23</td>
+                                <td>Tiranë – Kapshticë – Volos</td>
+                                <td>Çdo ditë ora 05:00, (me zgjatim në Shkodër)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleInfo(infoId, boxId) {
+        var infoElement = document.getElementById(infoId);
+        var boxElement = document.getElementById(boxId);
+
+        if (infoElement.style.maxHeight) {
+            // Information is currently visible, so hide it
+            infoElement.style.maxHeight = null;
+            boxElement.classList.remove('expanded');
+        } else {
+            // Information is currently hidden, so show it
+            infoElement.style.maxHeight = infoElement.scrollHeight + "px";
+            boxElement.classList.add('expanded');
+        }
+    }
+</script>
+
+</body>
+
+</html>

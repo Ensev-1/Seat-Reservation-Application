@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+
+    .alert-info {
+        color: #2f5162;
+        background-color: #caf1c9;
+        border-color: #70eb66;
+    }
+
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+</style>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Feedbacks</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text ="*{userDetails}"></span>!</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/dashboard}" class="btn anchor" style="margin-left:600px"> <i class="fa fa-arrow-circle-o-left"></i>Dashboard</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/logout}" class="btn anchor" style="margin-left:500px; margin-bottom: 10px"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+
+<div class="container" style="margin-top: 10px;">
+    <div th:if="${param.success}">
+        <div class="alert alert-info">Your feedback has been recorded.</div>
+    </div>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger" th:text="${param.error}"></div>
+    </div>
+    <div th:if="${error}">
+        <div class="alert alert-danger" th:text="${error}"></div>
+    </div>
+    <form th:action="@{/feedback}" method="post" th:object="${feedback}" onsubmit="return validateForm()">
+        <div class="form-group" style="width: 21%;">
+            <label class="control-label" for="name">
+                Name
+            </label>
+            <input id="name" class="form-control"
+                   th:field="*{name}" required readonly="readonly"
+                   autofocus="autofocus" />
+        </div>
+        <div class="form-group" style="width: 21%;">
+            <label class="control-label">
+                Email
+            </label>
+            <input id="emailId" class="form-control"
+                   th:field="*{emailId}" required readonly="readonly"
+                   autofocus="autofocus" />
+        </div>
+        <div class="form-group" style="width: 21%;">
+            <label class="control-label" for="rating">
+                Rating (Out of 10)
+            </label>
+            <input id="rating" class="form-control"
+                   th:field="*{rating}" type="number" min="0" max="10" required
+                   autofocus="autofocus" />
+        </div>
+        <div class="form-group" style="width: 21%;">
+            <label class="control-label" for="comments">
+                Feedback
+            </label>
+            <textarea id="comments" class="form-control"
+                      th:field="*{comments}" required
+                      autofocus="autofocus"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" style="margin-top:25px;">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        var feedback = document.getElementById('comments').value.trim();
+
+        if (feedback === '') {
+            alert('Feedback cannot be empty or just whitespace.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+
+</html>

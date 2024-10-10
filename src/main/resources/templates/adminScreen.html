@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .bottom-part {
+        margin-top: 30px;
+    }
+
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+
+    input, label {
+        display: block;
+    }
+
+    .alert-info {
+        color: #2f5162;
+        background-color: #caf1c9;
+        border-color: #70eb66;
+    }
+</style>
+
+<body style="background-color: #c7eaf04d;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Admin
+                Dashboard</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text="*{userDetails}"></span>!</h4></div>
+                    <div class="col-md-3">
+                        <a th:href="@{/adminScreen/allRecords}" class="btn anchor" style="margin-left:500px"> <i
+                                class="fa fa-arrow-circle-o-left"></i>&nbsp;All Records</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/logout}" class="btn anchor" style="margin-left:500px"> <i
+                                class="fa fa-arrow-circle-o-left"></i>&nbsp;Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+
+<div class="container bottom-part">
+    <div th:if="${param.success}">
+        <div class="alert alert-info">Uploaded Successfully.</div>
+    </div>
+
+    <form th:action="@{/adminScreen}" method="post" th:object="${busDetails}">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 21%;">
+                        <label class="control-label" for="from">
+                            From </label>
+                        <input id="from" class="form-control"
+                               th:field="*{fromDestination}" required autofocus="autofocus"/>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 21%;">
+                        <label class="control-label" for="to"> To
+                        </label> <input id="to" class="form-control"
+                                        th:field="*{toDestination}" required autofocus="autofocus"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="filterDate"> Date
+                        </label><input type="date" th:field="*{reservationDate}" id="filterDate" required
+                                       autofocus="autofocus"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 21%;">
+                        <label class="control-label" for="price"> Price
+                        </label> <input id="price" class="form-control"
+                                        th:field="*{price}" required autofocus="autofocus"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 21%;">
+                        <label class="control-label" for="busName"> Bus ID
+                        </label> <input id="busName" class="form-control"
+                                        th:field="*{busId}" required autofocus="autofocus"/>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group" style="width: 21%;">
+                        <label class="control-label" for="time"> Departure Time
+                        </label> <input id="time" class="form-control" type="time"
+                                        th:field="*{time}" required autofocus="autofocus"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="margin-top:25px;">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>

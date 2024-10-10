@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body style="background-color: #c7eaf04d;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <h1 class="title"><strong>Busio -</strong></h1>
+        <h3 class="titleTwo">Seat Reservation Application</h3>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+
+<div class="container">
+
+    <div class="row" style="width:60%; margin-left:20%;">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div th:if="${param.error}">
+                <div class="alert alert-info">Email or Password has been entered wrong. Please try again.</div>
+            </div>
+
+            <h1 class="loginTitle">Login</h1>
+
+            <form th:action="@{/login}" method="post" th:object="${user}" onsubmit="return validateForm()">
+
+                <div class="form-group">
+                    <label class="control-label" for="email"> Email </label>
+                    <input id="email" class="form-control" th:field="*{username}"
+                           type="email" required autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password"> Password </label>
+                    <input id="password" class="form-control" type="password"
+                           th:field="*{password}" required autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> Log In</button>
+                    <span> New User? <a href="/" th:href="@{/registration}">Register here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer" style="margin-top:115px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4><strong>About Us</strong></h4>
+                    <p>Your traveling buddy, always here to help you make your next trip easier.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4 style="padding-left: 15px"><strong>Contact</strong></h4>
+                    <ul>
+                        <li><a href="login.html">Email Us</a></li>
+                        <li><a href="login.html">Call Us</a></li>
+                        <li><a href="login.html">Location</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4 style="padding-left: 15px"><strong>Follow Us</strong></h4>
+                    <ul>
+                        <li><a href="login.html">Facebook</a></li>
+                        <li><a href="login.html">Twitter</a></li>
+                        <li><a href="login.html">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+
+<script>
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        // Email pattern (simple version)
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // Alphanumeric pattern for password
+        var passwordPattern = /^[a-zA-Z0-9]+$/;
+
+        if (!email.match(emailPattern)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (!password.match(passwordPattern)) {
+            alert("Password must be alphanumeric.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</html>

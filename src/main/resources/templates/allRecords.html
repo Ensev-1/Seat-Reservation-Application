@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .bottom-part {
+        margin-top: 30px;
+    }
+
+    input, label {
+        display: block;
+    }
+
+    .alert-info {
+        margin-top: 15px;
+        color: #2f5162;
+        background-color: #caf1c9;
+        border-color: #70eb66;
+    }
+
+    .table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        border-top-color: lightgray;
+    }
+
+    .table td, .table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tr:hover {
+        background-color: #ddd;
+    }
+
+    .table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #94A9CA;
+        color: white;
+    }
+
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+</style>
+
+<body style="background-color: #c7eaf04d;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Dashboard</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text="*{userDetails}"></span>!</h4></div>
+                    <div class="col-md-3">
+                        <a th:href="@{/adminScreen}" class="btn anchor"> <i class="fa fa-arrow-circle-o-left"></i>Dashboard</a>
+                    </div>
+                    <div class="col-md-3" style="margin-left: 124px;">
+                        <a th:href="@{/logout}" class="btn anchor"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+
+<div class="container">
+    <div th:if="${param.success}">
+        <div class="alert alert-info">Record deleted successfully.</div>
+    </div>
+    <div class="row bottom-part">
+        <form th:action="@{/adminScreen/allRecords}" method="post" th:object="${data}">
+            <div class="container">
+                <div th:if="${data != null}">
+                    <table border="1" class="table table-striped table-responsive-md">
+                        <thead>
+                            <tr>
+                                <th>
+                                    From
+                                </th>
+                                <th>
+                                    To
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    Bus Id
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="bus : ${data}">
+                                <td th:text="${bus.fromDestination}"></td>
+                                <td th:text="${bus.toDestination}"></td>
+                                <td th:text="${bus.reservationDate}"></td>
+                                <td th:text="${bus.time}"></td>
+                                <td th:text="${bus.busId}"></td>
+                                <td th:text="${bus.price}"></td>
+                                <td><a th:href="@{/adminScreen/delete/{id}(id=${bus.id})}"
+                                       class="btn btn-primary">Delete</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>

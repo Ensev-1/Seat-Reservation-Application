@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+
+    .table-container {
+        margin-top:145px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+    table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #85aad2;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+</style>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Station Rules</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text="*{userDetails}"></span>!</h4></div>
+                    <div class="col-md-3">
+                        <a th:href="@{/dashboard}" class="btn anchor" style="margin-left:600px"> <i
+                                class="fa fa-arrow-circle-o-left"></i>Dashboard</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/logout}" class="btn anchor" style="margin-left:500px; margin-bottom: 12px;"> <i
+                                class="fa fa-arrow-circle-o-left"></i>&nbsp;Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="table-container">
+        <h2 style="text-align: left; margin-top:0; padding-top:0">Rules / Rregullorja</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rule Number</th>
+                    <th>Rule Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Terminali mundeson sinkronizimin e linjave te Autobuzave Nderqytetas per zonen e Jugut
+                    Durres-it dhe Veriut. Hyrja e mjeteve ne Terminal behet vetem per mjete autobusi, te cilat
+                    jane te pajisura me leje transporti dhe linjat e autorizuara, qe levizin perkatesisht dhe
+                    ne oraret e percaktuara</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Tarifa e Stacionimit ne Terminal eshte e percaktuar sipas Udhezimit te kryetarit te
+                    Bashkise Nr.52K2, date 27.01.2016" Caktimin e Tarifave te Parkimit ne lidhje me mjetet e transportit
+                    kryesisht per linjat nderqytetase kryesore Tirane - Durres dhe linjen nderqytetase dytesore
+                    Tirane - Kavaje.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Perfaqesuesit e linjes perkatese duhet te pajisen me bileten e parkimit ne hyrje dhe
+                    kuponin tatimor ne momentin e daljes nga Terminali.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Perfaqesuesit e linjes perkatese Nderqytetase duhet te respektojne sinjalistiken e zones
+                    se stacionit ne menyre qe te mos shkaktojne pengesa apo veshtiresi per perfaqesuesit e tjere
+                    te linjave nderqytetase. Ne raste te shkeljes se rregullores se Terminalit, duhet te lajmerojne
+                    Perfaqesuesin e Terminalit per zgjidhjen e problematikes sipas rregullores.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Perfaqesuesi i Linjes perkatese Nderqytetase eshte ne dijeni se Terminali nuk do te mbaje
+                    pergjegjesi ligjore per demtime direkte apo indirekte te shkaktuara nga palet e tjera apo vete
+                    perdoruesit e tjere te Terminalit si vjedhje, tentative per vjedhje te sendeve, objekteve,
+                    materilaeve te ndodhura brenda apo ne bagazhe te mjeteve motorike.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Terminali nuk eshte pergjegjes per demet qe mund te shkaktohen nga tretet brenda ne Terminal</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Automjetet gjate daljes nga Terminali, duhet te respektojne rregullat e qarkullimit dhe se
+                    levizjes (te jene me dyer dhe bagazh te mbyllur).</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Ne rastet kur Perfaqesuesit e linjes Nderqytetase shkaktojne demtime te Terminalit, me ose pa
+                    dashje, atehere ky i fundit duhet te demshperbleje Terminalin me vleren e plote financiare te demit
+                    te shkaktuar.</td>
+                </tr>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+
+</html>

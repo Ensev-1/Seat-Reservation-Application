@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Reservation Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<style>
+    .navbar {
+        background-color: #d9edf7;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .anchor {
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+    .anchor:hover,
+    .anchor:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .anchor:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .anchor:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+
+    input, label {
+        display: block;
+    }
+    .alert-info {
+        color: #2f5162;
+        background-color: #caf1c9;
+        border-color: #70eb66;
+    }
+
+</style>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h1 style="text-align: center; border-bottom: 1px outset black; padding-bottom: 15px">Busio - Booking
+                Dashboard</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Welcome <span th:text="*{userDetails}"></span>!</h4></div>
+                    <div class="col-md-3">
+                        <a th:href="@{/myBooking}" class="btn anchor"> <i class="fa fa-arrow-circle-o-left"></i>
+                            My Bookings</a>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -132px;">
+                        <a th:href="@{/feedback}" class="btn anchor"> <i class="fa fa-arrow-circle-o-left"></i>
+                            Feedback</a>
+                    </div>
+                    <div class="col-md-3" style="margin-left: 124px; margin-bottom: 10px">
+                        <a th:href="@{/logout}" class="btn anchor"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;
+                            Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+<div class="container">
+    <div class="row">
+        <div th:if="${param.success}">
+            <div class="alert alert-info">The booking was completed successfully. You can check your bookings in the Dashboard.</div>
+        </div>
+
+        <h1 style="padding-left: 14px; padding-bottom: 5px; font-weight: bold;">Booking</h1>
+
+        <form th:action="@{/dashboard/booking}" method="post" th:object="${record}" onsubmit="return validateForm()">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="from">From</label>
+                            <input id="from" class="form-control" th:field="*{fromDestination}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="to">To</label>
+                            <input id="to" class="form-control" th:field="*{toDestination}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="filterDate">Date</label>
+                            <input type="date" th:field="*{reservationDate}" id="filterDate" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="price">Price</label>
+                            <input id="price" class="form-control" th:field="*{price}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="noOfPersons">Number of Persons</label>
+                            <input id="noOfPersons" class="form-control" th:field="*{noOfPersons}" required autofocus="autofocus" oninput="updateTotalAmount()" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="totalCalculated">Total Amount</label>
+                            <input id="totalCalculated" class="form-control" th:field="*{totalCalculated}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="availableSeats">Available Seats</label>
+                            <input id="availableSeats" class="form-control" th:field="*{availableSeats}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="width: 21%;">
+                            <label class="control-label" for="time">Departure Time</label>
+                            <input id="time" class="form-control" th:field="*{time}" required readonly="readonly" autofocus="autofocus" />
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{busId}" />
+                <input type="hidden" th:field="*{reservationId}" />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" style="margin-top:25px;">Pay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:3px;">
+                    <span>Go to the Dashboard <a href="/" th:href="@{/dashboard}">-Dashboard-</a></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function updateTotalAmount() {
+        var price = document.getElementById("price").value;
+        var numberOfPersons = document.getElementById("noOfPersons").value;
+
+        if (!isNaN(numberOfPersons) && numberOfPersons.trim() !== '' && numberOfPersons > 0) {
+            var totalValue = price * numberOfPersons;
+            document.getElementById("totalCalculated").value = totalValue;
+        } else {
+            document.getElementById("totalCalculated").value = 0;
+        }
+    }
+
+    function validateForm() {
+        var numberOfPersons = document.getElementById("noOfPersons").value;
+
+        if (isNaN(numberOfPersons) || numberOfPersons.trim() === '' || numberOfPersons <= 0) {
+            alert('Please enter a valid number of persons.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>
